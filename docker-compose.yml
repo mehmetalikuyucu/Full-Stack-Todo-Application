@@ -1,0 +1,56 @@
+version: '3.7'
+services:
+  client:
+    build: 
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/app
+      - ./server/node_modules:/app/node_modules
+    depends_on:
+      - server
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: todo_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - db-network
+
+  server:
+    build: 
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./server:/app
+      - ./server/node_modules:/app/node_modules
+    depends_on:
+      - db
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@olimp.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    depends_on:
+      - db
+    networks:
+      - db-network
+volumes:
+  db-data:
+  pgadmin-data:
+networks:
+  db-network:
