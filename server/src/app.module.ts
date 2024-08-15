@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TodoModule } from './todo/todo.module';
+import { TaskModule } from './task/task.module';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 
@@ -14,12 +14,12 @@ import { AuthModule } from './auth/auth.module';
       port: 5432,
       username: 'postgres',
       password: 'postgres',
-      database: 'todo_db',
+      database: 'task_db',
       synchronize: true,
       logging: true,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
     }),
-    TodoModule,
+    TaskModule,
     UserModule,
     AuthModule,
   ],
