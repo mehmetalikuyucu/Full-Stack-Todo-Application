@@ -1,17 +1,33 @@
 version: '3.7'
 services:
   client:
-    build: 
-      context: ./client
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
+    image: node:lts
+    working_dir: /app
     volumes:
       - ./client:/app
-      - ./server/node_modules:/app/node_modules
+      - ./client/node_modules:/app/node_modules
+    ports:
+      - "3000:3000"
+    command: >
+      sh -c "npm install && npm run start"
     depends_on:
       - server
-
+    networks:
+      - network
+  server:
+    image: node:lts
+    working_dir: /app
+    volumes:
+      - ./server:/app
+      - ./server/node_modules:/app/node_modules
+    ports:
+      - "5001:5001"
+    command: >
+      sh -c "npm install -g @nestjs/cli && npm install && npm run start:dev"
+    depends_on:
+      - db
+    networks:
+      - network
   db:
     image: postgres:latest
     environment:
@@ -23,19 +39,8 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
     networks:
-      - db-network
+      - network
 
-  server:
-    build: 
-      context: ./server
-      dockerfile: Dockerfile
-    ports:
-      - "5001:5001"
-    volumes:
-      - ./server:/app
-      - ./server/node_modules:/app/node_modules
-    depends_on:
-      - db
   pgadmin:
     image: dpage/pgadmin4
     environment:
@@ -48,9 +53,12 @@ services:
     depends_on:
       - db
     networks:
-      - db-network
+      - network
+
 volumes:
   db-data:
   pgadmin-data:
+  node_modules:
+  
 networks:
-  db-network:
+  network:
