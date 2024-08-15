@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Todo } from 'src/todo/entities/todo.entity';
 import {
   Column,
   CreateDateColumn,
@@ -10,11 +9,13 @@ import {
 } from 'typeorm';
 import { UserRoleTypes } from './enums/userRoleTypes.enum';
 import { IsEmail } from 'class-validator';
+import { Task } from 'src/task/entities/task.entity';
 
 @Entity()
 export class User {
+  @ApiProperty()
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @ApiProperty()
   @Column({ type: 'varchar', unique: true, length: 50 })
@@ -42,10 +43,6 @@ export class User {
   updatedAt: Date;
 
   @ApiProperty()
-  @OneToMany(() => Todo, (todo) => todo.user)
-  accessTokens: string[];
-
-  @ApiProperty()
-  @OneToMany(() => Todo, (todo) => todo.user)
-  todos: Todo[];
+  @OneToMany(() => Task, (task) => task.user)
+  tasks: Task[];
 }

@@ -8,13 +8,13 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { TodoStatusType } from './enums/todoStatusType.enum';
+import { TaskStatusType } from './enums/task-status-type.enum';
 
 @Entity()
-export class Todo {
+export class Task {
   @PrimaryGeneratedColumn('uuid')
   @ApiProperty()
-  id: number;
+  id: string;
   @Column({ type: 'text' })
   @ApiProperty()
   title: string;
@@ -23,11 +23,11 @@ export class Todo {
   description: string;
   @Column({
     type: 'enum',
-    enum: TodoStatusType,
-    default: TodoStatusType.PENDING,
+    enum: TaskStatusType,
+    default: TaskStatusType.PENDING,
   })
   @ApiProperty()
-  status: TodoStatusType;
+  status: TaskStatusType;
   @ApiProperty()
   @CreateDateColumn()
   createdAt: Date;
@@ -35,6 +35,6 @@ export class Todo {
   @UpdateDateColumn()
   updatedAt: Date;
   @ApiProperty()
-  @ManyToOne(() => User, (user) => user.todos)
+  @ManyToOne(() => User, (user) => user.tasks)
   user: User;
 }

@@ -1,8 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEnum, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString } from "class-validator";
 
-export class CreateTodoDto {
-
+export class CreateTaskDto {
     @IsString()
     @IsNotEmpty()
     @ApiProperty()
@@ -15,5 +14,5 @@ export class CreateTodoDto {
 
     @ApiProperty()
     @IsNotEmpty()
-    readonly userId:number;
+    readonly userId:string;
 }

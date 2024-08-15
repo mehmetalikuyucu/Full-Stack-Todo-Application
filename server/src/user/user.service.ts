@@ -19,15 +19,14 @@ export class UserService {
   }
 
   async findOneByUsername(username: string): Promise<User> {
-    const user = await this.userRepository.findOne({where: {username
-    }});
+    const user = await this.userRepository.findOne({where: {username}});
     if (!user) {
       throw new Error(`User with username ${username} not found`);
     }
     return user;
   }
 
-  async findOne(id: number): Promise<User> {
+  async findOne(id: string): Promise<User> {
     const user = await this.userRepository.findOne({where: {id}});
     if (!user) {
       throw new Error(`User with id ${id} not found`);
@@ -35,7 +34,7 @@ export class UserService {
     return user;
   }
   //TODO: don't forget to hash the password before updating
-  async update(id: number, updateUserDto: UpdateUserDto):Promise<User> {
+  async update(id: string, updateUserDto: UpdateUserDto):Promise<User> {
     const user = await this.userRepository.findOne({where: {id}});
     if (!user) {
       throw new Error(`User with id ${id} not found`);
@@ -44,7 +43,7 @@ export class UserService {
     return this.userRepository.save(user);
   }
 //TODO: change only user Status Type not remove user
-  async remove(id: number) {
+  async remove(id: string) {
     const user = await this.userRepository.findOne({where: {id}});
     if (!user) {
       throw new Error(`User with id ${id} not found`);
