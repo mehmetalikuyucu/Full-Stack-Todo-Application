@@ -19,6 +19,7 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/swagger', app, document);
+  app.enableCors();
   app.enableVersioning({
     type:VersioningType.URI,
     prefix:'v',
