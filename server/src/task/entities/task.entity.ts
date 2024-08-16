@@ -15,12 +15,14 @@ export class Task {
   @PrimaryGeneratedColumn('uuid')
   @ApiProperty()
   id: string;
+
   @Column({ type: 'text' })
   @ApiProperty()
   title: string;
   @Column({ type: 'text' })
   @ApiProperty()
   description: string;
+
   @Column({
     type: 'enum',
     enum: TaskStatusType,
@@ -28,12 +30,19 @@ export class Task {
   })
   @ApiProperty()
   status: TaskStatusType;
+
   @ApiProperty()
   @CreateDateColumn()
   createdAt: Date;
+
   @ApiProperty()
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @Column({ type: 'uuid' })
+  @ApiProperty()
+  userId: string;
+
   @ApiProperty()
   @ManyToOne(() => User, (user) => user.tasks)
   user: User;

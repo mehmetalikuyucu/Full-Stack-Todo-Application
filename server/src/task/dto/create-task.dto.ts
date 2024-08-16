@@ -14,5 +14,6 @@ export class CreateTaskDto {
 
     @ApiProperty()
     @IsNotEmpty()
+    @IsString()
     readonly userId:string;
 }
